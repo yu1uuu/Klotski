@@ -5,8 +5,8 @@ int key_pressed = 0;
 int grid_array[6][6] = {0};
 int left_pressed = 1;
 int right_pressed = 0;
-int up_pressed = 0;
-int down_pressed = 1;
+int up_pressed = 1;
+int down_pressed = 0;
 
 struct fb_t {
 	unsigned short volatile pixels[256][512];
@@ -104,23 +104,23 @@ void draw_box(struct fb_t *const fbp, unsigned short box[], int x, int y) {
 
 // ------------------- two grid box horizontal ---------------------
 
-void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
+void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col, int box_idx){
 	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
 	
-	draw_box(fbp, box[0], x, y);
-	draw_box(fbp, box[0], x, y+15);
-   	draw_box(fbp, box[0], x+15, y);
-	draw_box(fbp, box[0], x+15, y+15);
+	draw_box(fbp, box[box_idx], x, y);
+	draw_box(fbp, box[box_idx], x, y+15);
+   	draw_box(fbp, box[box_idx], x+15, y);
+	draw_box(fbp, box[box_idx], x+15, y+15);
 	
-	draw_box(fbp, box[0], x+18, y+6);
-	draw_box(fbp, box[0], x+18, y+9);
+	draw_box(fbp, box[box_idx], x+18, y+6);
+	draw_box(fbp, box[box_idx], x+18, y+9);
 	
-	draw_box(fbp, box[0], x+33, y);
-	draw_box(fbp, box[0], x+33, y+15);
-   	draw_box(fbp, box[0], x+48, y);
-	draw_box(fbp, box[0], x+48, y+15);
+	draw_box(fbp, box[box_idx], x+33, y);
+	draw_box(fbp, box[box_idx], x+33, y+15);
+   	draw_box(fbp, box[box_idx], x+48, y);
+	draw_box(fbp, box[box_idx], x+48, y+15);
 	
 	if (col > 0 && col < 6) { 
         grid_array[row - 1][col - 1] = 1; 
@@ -129,21 +129,7 @@ void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
 }
 
 void erase_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
-	int x = 55+(col-1)*33;
-	int y = 15+(row-1)*33;
-	
-	draw_box(fbp, box[3], x, y);
-	draw_box(fbp, box[3], x, y+15);
-   	draw_box(fbp, box[3], x+15, y);
-	draw_box(fbp, box[3], x+15, y+15);
-	
-	draw_box(fbp, box[3], x+18, y+6);
-	draw_box(fbp, box[3], x+18, y+9);
-	
-	draw_box(fbp, box[3], x+33, y);
-	draw_box(fbp, box[3], x+33, y+15);
-   	draw_box(fbp, box[3], x+48, y);
-	draw_box(fbp, box[3], x+48, y+15);
+	draw_two_grid_box_horizontal(fbp, row, col, 3);
 	
 	if (col > 0 && col < 6) { 
         grid_array[row - 1][col - 1] = 0; 
@@ -155,36 +141,36 @@ void move_two_grid_box_horizontal(int row, int col){
     if(left_pressed && col >= 1) {
         if(col > 1 && grid_array[row - 1][col - 2] == 0) {
             erase_two_grid_box_horizontal(fbp, row, col);
-			draw_two_grid_box_horizontal(fbp, row, col-1);
+			draw_two_grid_box_horizontal(fbp, row, col-1, 0);
             
         }
     }else if(right_pressed && col <= 5) {
         if(col > 1 && grid_array[row + 1][col + 2] == 0) {
             erase_two_grid_box_horizontal(fbp, row, col);
-			draw_two_grid_box_horizontal(fbp, row, col+1);
+			draw_two_grid_box_horizontal(fbp, row, col+1, 0);
 		}
     }
 }
 
 // ------------------- two grid box vertical ---------------------
 
-void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col){
+void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col, int box_idx){
 	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
 	
-	draw_box(fbp, box[0], x, y);
-	draw_box(fbp, box[0], x, y+15);
-   	draw_box(fbp, box[0], x+15, y);
-	draw_box(fbp, box[0], x+15, y+15);
+	draw_box(fbp, box[box_idx], x, y);
+	draw_box(fbp, box[box_idx], x, y+15);
+   	draw_box(fbp, box[box_idx], x+15, y);
+	draw_box(fbp, box[box_idx], x+15, y+15);
 	
-	draw_box(fbp, box[0], x+9, y+18);
-	draw_box(fbp, box[0], x+6, y+18);
+	draw_box(fbp, box[box_idx], x+9, y+18);
+	draw_box(fbp, box[box_idx], x+6, y+18);
 	
-	draw_box(fbp, box[0], x, y+33);
-	draw_box(fbp, box[0], x, y+48);
-   	draw_box(fbp, box[0], x+15, y+33);
-	draw_box(fbp, box[0], x+15, y+48);
+	draw_box(fbp, box[box_idx], x, y+33);
+	draw_box(fbp, box[box_idx], x, y+48);
+   	draw_box(fbp, box[box_idx], x+15, y+33);
+	draw_box(fbp, box[box_idx], x+15, y+48);
 	
 	if (col > 0 && col < 6) { 
         grid_array[row - 1][col - 1] = 1; 
@@ -194,21 +180,7 @@ void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col){
 
 void erase_two_grid_box_vertical(struct fb_t *const fbp, int row, int col){
 	
-	int x = 55+(col-1)*33;
-	int y = 15+(row-1)*33;
-	
-	draw_box(fbp, box[3], x, y);
-	draw_box(fbp, box[3], x, y+15);
-   	draw_box(fbp, box[3], x+15, y);
-	draw_box(fbp, box[3], x+15, y+15);
-	
-	draw_box(fbp, box[3], x+9, y+18);
-	draw_box(fbp, box[3], x+6, y+18);
-
-	draw_box(fbp, box[3], x, y+33);
-	draw_box(fbp, box[3], x, y+48);
-   	draw_box(fbp, box[3], x+15, y+33);
-	draw_box(fbp, box[3], x+15, y+48);
+	draw_two_grid_box_vertical(fbp, row, col, 3);
 	
 	if (col > 0 && col < 6) { 
         grid_array[row - 1][col - 1] = 0; 
@@ -220,13 +192,13 @@ void move_two_grid_box_vertical(int row, int col){
     if(up_pressed && col >= 1) {
         if (row > 2 && grid_array[row - 3][col - 1] == 0) {
             erase_two_grid_box_vertical(fbp, row, col);
-			draw_two_grid_box_vertical(fbp, row-1, col);
+			draw_two_grid_box_vertical(fbp, row-1, col, 0);
             
         }
     }else if(down_pressed && col <= 5) {
         if (row < 5 && grid_array[row + 1][col - 1] == 0) {
             erase_two_grid_box_vertical(fbp, row, col);
-			draw_two_grid_box_vertical(fbp, row+1, col);
+			draw_two_grid_box_vertical(fbp, row+1, col, 0);
 		}
     }
 }
@@ -267,37 +239,59 @@ void draw_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col, in
 }
 
 void erase_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
+	
 	draw_three_grid_box_horizontal(fbp, row, col, 3);
+	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 0; 
+        grid_array[row - 1][col] = 0; 
+		grid_array[row - 1][col + 1] = 0;
+    }
+}
+
+void move_three_grid_box_horizontal(int row, int col){
+    if(left_pressed && col > 1) {
+        if(grid_array[row - 1][col - 2] == 0) {
+            erase_three_grid_box_horizontal(fbp, row, col);
+			draw_three_grid_box_horizontal(fbp, row, col-1, 1);
+            
+        }
+    }else if(right_pressed && col < 4) {
+         if(grid_array[row - 1][col + 3] == 0) {
+            erase_three_grid_box_horizontal(fbp, row, col);
+			draw_three_grid_box_horizontal(fbp, row, col+1, 1);
+		}
+    }
 }
 
 
 // ------------------- three grid box vertical ---------------------
 
-void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col){
+void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col, int box_idx){
 	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
 	
-	draw_box(fbp, box[1], x, y);
-	draw_box(fbp, box[1], x, y+15);
-   	draw_box(fbp, box[1], x+15, y);
-	draw_box(fbp, box[1], x+15, y+15);
+	draw_box(fbp, box[box_idx], x, y);
+	draw_box(fbp, box[box_idx], x, y+15);
+   	draw_box(fbp, box[box_idx], x+15, y);
+	draw_box(fbp, box[box_idx], x+15, y+15);
 	
-	draw_box(fbp, box[1], x+9, y+18);
-	draw_box(fbp, box[1], x+6, y+18);
+	draw_box(fbp, box[box_idx], x+9, y+18);
+	draw_box(fbp, box[box_idx], x+6, y+18);
 	
-	draw_box(fbp, box[1], x, y+33);
-	draw_box(fbp, box[1], x, y+48);
-   	draw_box(fbp, box[1], x+15, y+33);
-	draw_box(fbp, box[1], x+15, y+48);
+	draw_box(fbp, box[box_idx], x, y+33);
+	draw_box(fbp, box[box_idx], x, y+48);
+   	draw_box(fbp, box[box_idx], x+15, y+33);
+	draw_box(fbp, box[box_idx], x+15, y+48);
 	
-	draw_box(fbp, box[1], x+9, y+51);
-	draw_box(fbp, box[1], x+6, y+51);
+	draw_box(fbp, box[box_idx], x+9, y+51);
+	draw_box(fbp, box[box_idx], x+6, y+51);
 	
-	draw_box(fbp, box[1], x, y+66);
-	draw_box(fbp, box[1], x, y+81);
-   	draw_box(fbp, box[1], x+15, y+66);
-	draw_box(fbp, box[1], x+15, y+81);
+	draw_box(fbp, box[box_idx], x, y+66);
+	draw_box(fbp, box[box_idx], x, y+81);
+   	draw_box(fbp, box[box_idx], x+15, y+66);
+	draw_box(fbp, box[box_idx], x+15, y+81);
 	
 	if (col > 0 && col < 6) { 
         grid_array[row - 1][col - 1] = 1; 
@@ -306,6 +300,33 @@ void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col){
     }
 }
 
+void erase_three_grid_box_vertical(struct fb_t *const fbp, int row, int col){
+	
+	draw_three_grid_box_vertical(fbp, row, col, 3);
+	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 0; 
+        grid_array[row][col - 1] = 0; 
+		grid_array[row + 1][col - 1] = 0; 
+    }
+}
+
+void move_three_grid_box_vertical(int row, int col){
+    if(up_pressed && col >= 1) {
+        if (row > 2 && grid_array[row - 2][col - 1] == 0) {
+            erase_three_grid_box_vertical(fbp, row, col);
+			draw_three_grid_box_vertical(fbp, row-1, col, 0);
+            
+        }
+    }else if(down_pressed && col <= 5) {
+        if (row < 5 && grid_array[row + 2][col - 1] == 0) {
+            erase_three_grid_box_vertical(fbp, row, col);
+			draw_three_grid_box_vertical(fbp, row+1, col, 0);
+		}
+    }
+}
+
+// ------------------- main box ----------------------
 
 void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
 	
@@ -333,37 +354,24 @@ void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
 
 
 
-void grid_two(struct fb_t *const fbp) {
-
-	draw_two_grid_box_horizontal(fbp, 2, 5);
-	draw_two_grid_box_horizontal(fbp, 3, 5);
-	
-	draw_two_grid_box_vertical(fbp, 5, 5);
-	draw_two_grid_box_vertical(fbp, 5, 2);
-	
-	draw_three_grid_box_vertical (fbp, 1, 4);
-	
-	draw_three_grid_box_horizontal (fbp, 4, 1, 1);
-	
-}
 
 
 void grid_one(struct fb_t *const fbp) {
 	
-	draw_two_grid_box_horizontal(fbp, 1, 5);
-	draw_two_grid_box_horizontal(fbp, 3, 1);
-	draw_two_grid_box_horizontal(fbp, 3, 3);
-	draw_two_grid_box_horizontal(fbp, 5, 2);
-	draw_two_grid_box_horizontal(fbp, 5, 5);
+	draw_two_grid_box_horizontal(fbp, 1, 5, 0);
+	draw_two_grid_box_horizontal(fbp, 3, 1, 0);
+	draw_two_grid_box_horizontal(fbp, 3, 3, 0);
+	draw_two_grid_box_horizontal(fbp, 5, 2, 0);
+	draw_two_grid_box_horizontal(fbp, 5, 5, 0);
 	
-	draw_two_grid_box_vertical(fbp, 1, 3);
-	draw_two_grid_box_vertical(fbp, 2, 5);
+	draw_two_grid_box_vertical(fbp, 1, 3, 0);
+	draw_two_grid_box_vertical(fbp, 2, 5, 0);
 	
 	draw_three_grid_box_horizontal (fbp, 6, 3, 1);
+	// draw_three_grid_box_vertical (fbp, 4, 1, 1); // erase after
 	
 	draw_main_box_vertical(fbp, 1, 4);
 	
-	erase_three_grid_box_horizontal(fbp, 6, 3);
 
 }
 
