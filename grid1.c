@@ -1,6 +1,11 @@
+# include "stdio.h"
+	
+// init paramerters
+int key_pressed = 0;
+int grid_array[6][6] = {0};
 
 struct fb_t {
-unsigned short volatile  pixels[256][512];
+	unsigned short volatile  pixels[256][512];
 };
 
 struct fb_t *const fbp = ((struct fb_t*) 0x8000000);
@@ -64,8 +69,7 @@ unsigned short box3[] = {
 
 unsigned short *box[3] = {box1, box2, box3};
 
-void
-sprite_draw(struct fb_t *const fbp, unsigned short sprite[], int x, int y) {
+void sprite_draw(struct fb_t *const fbp, unsigned short sprite[], int x, int y) {
  int sxi, syi;
  int xi, yi;
 	
@@ -80,11 +84,8 @@ sprite_draw(struct fb_t *const fbp, unsigned short sprite[], int x, int y) {
 
 void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
 	
-	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
-
-	
 	
 	sprite_draw(fbp, box[0], x, y);
 	sprite_draw(fbp, box[0], x, y+15);
@@ -99,18 +100,18 @@ void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
    	sprite_draw(fbp, box[0], x+48, y);
 	sprite_draw(fbp, box[0], x+48, y+15);
 	
-	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 1; 
+        grid_array[row - 1][col] = 1; 
+    }
 }
 
 
 
 void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col){
 	
-	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
-
-	
 	
 	sprite_draw(fbp, box[0], x, y);
 	sprite_draw(fbp, box[0], x, y+15);
@@ -125,17 +126,17 @@ void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col){
    	sprite_draw(fbp, box[0], x+15, y+33);
 	sprite_draw(fbp, box[0], x+15, y+48);
 	
-	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 1; 
+        grid_array[row][col - 1] = 1; 
+    }
 }
 
 
 void draw_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
 	
-	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
-
-	
 	
 	sprite_draw(fbp, box[1], x, y);
 	sprite_draw(fbp, box[1], x, y+15);
@@ -150,19 +151,19 @@ void draw_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
    	sprite_draw(fbp, box[1], x+48, y);
 	sprite_draw(fbp, box[1], x+48, y+15);
 	
-	
 	sprite_draw(fbp, box[1], x+51, y+6);
 	sprite_draw(fbp, box[1], x+51, y+9);
-	
 	
 	sprite_draw(fbp, box[1], x+66, y);
 	sprite_draw(fbp, box[1], x+66, y+15);
    	sprite_draw(fbp, box[1], x+81, y);
 	sprite_draw(fbp, box[1], x+81, y+15);
 	
-	
-	
-	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 1; 
+        grid_array[row - 1][col] = 1; 
+		grid_array[row - 1][col + 1] = 1;
+    }
 }
 
 
@@ -171,11 +172,8 @@ void draw_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col){
 
 void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col){
 	
-	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
-
-	
 	
 	sprite_draw(fbp, box[1], x, y);
 	sprite_draw(fbp, box[1], x, y+15);
@@ -198,17 +196,19 @@ void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col){
    	sprite_draw(fbp, box[1], x+15, y+66);
 	sprite_draw(fbp, box[1], x+15, y+81);
 	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 1; 
+        grid_array[row][col - 1] = 1; 
+		grid_array[row + 1][col - 1] = 1; 
+    }
 }
 
 
 void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
 	
-	
 	int x = 55+(col-1)*33;
 	int y = 15+(row-1)*33;
 
-	
-	
 	sprite_draw(fbp, box[2], x, y);
 	sprite_draw(fbp, box[2], x, y+15);
    	sprite_draw(fbp, box[2], x+15, y);
@@ -222,25 +222,23 @@ void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
    	sprite_draw(fbp, box[2], x+15, y+33);
 	sprite_draw(fbp, box[2], x+15, y+48);
 	
-	
+	if (col > 0 && col < 6) { 
+        grid_array[row - 1][col - 1] = 1; 
+        grid_array[row][col - 1] = 1; 
+    }
 }
 
 
 
 void grid_two(struct fb_t *const fbp) {
-	
-	
 
 	draw_two_grid_box_horizontal(fbp, 2, 5);
 	draw_two_grid_box_horizontal(fbp, 3, 5);
 	
-	
 	draw_two_grid_box_vertical(fbp, 5, 5);
 	draw_two_grid_box_vertical(fbp, 5, 2);
 	
-	
 	draw_three_grid_box_vertical (fbp, 1, 4);
-	
 	
 	draw_three_grid_box_horizontal (fbp, 4, 1);
 	
@@ -263,11 +261,10 @@ void grid_one(struct fb_t *const fbp) {
 
 }
 
-
+void hand_key_pressed(){};
 
 
 int main() {
-
 
 	int x, y;
 
@@ -290,5 +287,13 @@ int main() {
 
 	//grid_two(fbp);  
 	grid_one(fbp);  
+	/*
+	for (int row = 0; row<6; row++){
+		printf("\n");
+		for (int col = 0; col<6; col++){
+			printf("%d", grid_array[row][col]);
+		}
+	}
+	*/
 	
 }
