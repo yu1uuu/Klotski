@@ -3,10 +3,13 @@
 // init paramerters
 int key_pressed = 0;
 int grid_array[6][6] = {0};
-int left_pressed = 1;
-int right_pressed = 0;
-int up_pressed = 1;
+int left_pressed = 0;
+int right_pressed = 1;
+int up_pressed = 0;
 int down_pressed = 0;
+
+int selected_row = 0;
+int selected_col = 0;
 
 struct fb_t {
 	unsigned short volatile pixels[256][512];
@@ -87,8 +90,25 @@ unsigned short white_box[] = {
 
 };
 
+unsigned short highlighted_box[] = {
+		0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 
+	0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739, 0x5739
 
-unsigned short *box[4] = {box1, box2, box3, white_box};
+};
+
+
+unsigned short *box[5] = {box1, box2, box3, white_box, highlighted_box};
 
 void draw_box(struct fb_t *const fbp, unsigned short box[], int x, int y) {
  int sxi, syi;
@@ -152,6 +172,10 @@ void move_two_grid_box_horizontal(int row, int col){
     }
 }
 
+void highlight_two_grid_box_horizontal(int row, int col){
+    draw_two_grid_box_horizontal(fbp, row, col, 4);
+}
+
 // ------------------- two grid box vertical ---------------------
 
 void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col, int box_idx){
@@ -201,6 +225,10 @@ void move_two_grid_box_vertical(int row, int col){
 			draw_two_grid_box_vertical(fbp, row+1, col, 0);
 		}
     }
+}
+
+void highlight_two_grid_box_vertical(int row, int col){
+    draw_two_grid_box_vertical(fbp, row, col, 4);
 }
 
 // ------------------- three grid box horizontal ---------------------
@@ -264,6 +292,9 @@ void move_three_grid_box_horizontal(int row, int col){
     }
 }
 
+void highlight_three_grid_box_horizontal(int row, int col){
+    draw_three_grid_box_horizontal(fbp, row, col, 4);
+}
 
 // ------------------- three grid box vertical ---------------------
 
@@ -326,38 +357,101 @@ void move_three_grid_box_vertical(int row, int col){
     }
 }
 
+void highlight_three_grid_box_vertical(int row, int col){
+    draw_three_grid_box_vertical(fbp, row, col, 4);
+}
+
 // ------------------- main box ----------------------
 
 void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
-	
-	int x = 55+(col-1)*33;
-	int y = 15+(row-1)*33;
+	draw_two_grid_box_vertical(fbp, row, col, 2);
+}
 
-	draw_box(fbp, box[2], x, y);
-	draw_box(fbp, box[2], x, y+15);
-   	draw_box(fbp, box[2], x+15, y);
-	draw_box(fbp, box[2], x+15, y+15);
+
+// ---------------------- move selections --------------------------
+
+void move_selection_to_nearest_block(int direction) {
+    // 0=left, 1=right, 2=up, 3=down
+    int found = 0; 
+    int new_col = selected_col;
+	int new_row = selected_row;
+
+    if (direction == 0) { // Left
+        for (int col = selected_col - 1; col > 0 && !found; col--) {
+            if (grid_array[selected_row][col] == 1) {
+				// redraw block
+				// rehighlight new block
+                new_col = col;
+                found = 1;
+            }
+        }
+    } else if (direction == 1) { // Right
+        for (int col = selected_col + 1; col < 6 && !found; col++) {
+            if (grid_array[selected_row][col] == 1) {
+                new_col = col;
+                found = 1;
+            }
+        }
+    } else if (direction == 2) { // Up
+        for (int row = selected_row - 1; row > 0 && !found; row--) {
+            if (grid_array[row][selected_col] == 1) {
+                new_row = row;
+                found = 1;
+            }
+        }
+    } else if (direction == 3) { // Down
+        for (int row = selected_row + 1; row < 6 && !found; row++) {
+            if (grid_array[row][selected_col] == 1) {
+                new_row = row;
+                found = 1;
+            }
+        }
+    }
+
+    // Update selection if a block is found
+    if (found) {
+        selected_row = new_row;
+        selected_col = new_col;
+    }
 	
-	draw_box(fbp, box[2], x+9, y+18);
-	draw_box(fbp, box[2], x+6, y+18);
-	
-	draw_box(fbp, box[2], x, y+33);
-	draw_box(fbp, box[2], x, y+48);
-   	draw_box(fbp, box[2], x+15, y+33);
-	draw_box(fbp, box[2], x+15, y+48);
-	
-	if (col > 0 && col < 6) { 
-        grid_array[row - 1][col - 1] = 1; 
-        grid_array[row][col - 1] = 1; 
+	highlight_two_grid_box_horizontal(selected_row, selected_col);
+}
+
+void user_select_keyboard() {
+    if(left_pressed) {
+        move_selection_to_nearest_block(0);
+    } else if(right_pressed) {
+        move_selection_to_nearest_block(1);
+    } else if(up_pressed) {
+        move_selection_to_nearest_block(2);
+    } else if(down_pressed) {
+        move_selection_to_nearest_block(3);
+    }
+}
+
+void highlight_initial_selection() {
+    for (int row = 0; row < 6; row++) {
+        for (int col = 0; col < 6; col++) {
+            if (grid_array[row][col] == 1) {
+                selected_row = row;
+                selected_col = col;
+				printf("row, col: %d %d", selected_row, selected_col);
+                //highlight_two_grid_box_horizontal(selected_row + 1, selected_col + 1);
+				highlight_two_grid_box_vertical(selected_row + 1, selected_col + 1);
+				highlight_three_grid_box_vertical(selected_row, selected_row);
+				highlight_three_grid_box_horizontal(selected_row, selected_row);
+                return; // Exit the function once the first block is highlighted
+            }
+        }
     }
 }
 
 
 
-
+// ------------------------- grids -----------------------------
 
 void grid_one(struct fb_t *const fbp) {
-	
+		
 	draw_two_grid_box_horizontal(fbp, 1, 5, 0);
 	draw_two_grid_box_horizontal(fbp, 3, 1, 0);
 	draw_two_grid_box_horizontal(fbp, 3, 3, 0);
@@ -368,17 +462,21 @@ void grid_one(struct fb_t *const fbp) {
 	draw_two_grid_box_vertical(fbp, 2, 5, 0);
 	
 	draw_three_grid_box_horizontal (fbp, 6, 3, 1);
-	// draw_three_grid_box_vertical (fbp, 4, 1, 1); // erase after
+	// highlight_two_grid_box_vertical(1, 3);
+	//move_two_grid_box_horizontal(5,2);
 	
 	draw_main_box_vertical(fbp, 1, 4);
 	
-
+	highlight_initial_selection();
+	user_select_keyboard();
+	
 }
 
 
 int get_grid(int row, int col){
 	return grid_array[row][col];
 }
+
 
 
 // --------------------- main -------------------------
@@ -402,8 +500,15 @@ int main() {
 	  fbp->pixels[y][x] = 0xffff;
 	  }
 
-
 	//grid_two(fbp);  
+	
 	grid_one(fbp);  
 
+	/*
+	for (int row = 0; row<6; row++){
+		printf("\n");
+		for (int col = 0; col<6; col++){
+			printf("%d", grid_array[row][col]);
+		}
+	}*/
 }
