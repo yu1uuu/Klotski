@@ -122,7 +122,7 @@ void draw_box(struct fb_t *const fbp, unsigned short box[], int x, int y) {
 	}
 }
 
-// ------------------- two grid box horizontal ---------------------
+// ----------------------------- two grid box horizontal ----------------------------
 
 void draw_two_grid_box_horizontal(struct fb_t *const fbp, int row, int col, int box_idx){
 	
@@ -176,7 +176,7 @@ void highlight_two_grid_box_horizontal(int row, int col){
     draw_two_grid_box_horizontal(fbp, row, col, 4);
 }
 
-// ------------------- two grid box vertical ---------------------
+// --------------------------- two grid box vertical ---------------------------
 
 void draw_two_grid_box_vertical(struct fb_t *const fbp, int row, int col, int box_idx){
 	
@@ -231,7 +231,7 @@ void highlight_two_grid_box_vertical(int row, int col){
     draw_two_grid_box_vertical(fbp, row, col, 4);
 }
 
-// ------------------- three grid box horizontal ---------------------
+// ----------------------------- three grid box horizontal -------------------------------
 
 void draw_three_grid_box_horizontal(struct fb_t *const fbp, int row, int col, int box_idx){
 	
@@ -292,11 +292,12 @@ void move_three_grid_box_horizontal(int row, int col){
     }
 }
 
+// only highlight function for now, will account for all blocks when finished optimizing draw function
 void highlight_three_grid_box_horizontal(int row, int col){
     draw_three_grid_box_horizontal(fbp, row, col, 4);
 }
 
-// ------------------- three grid box vertical ---------------------
+// ----------------------------- three grid box vertical -------------------------------
 
 void draw_three_grid_box_vertical(struct fb_t *const fbp, int row, int col, int box_idx){
 	
@@ -361,14 +362,14 @@ void highlight_three_grid_box_vertical(int row, int col){
     draw_three_grid_box_vertical(fbp, row, col, 4);
 }
 
-// ------------------- main box ----------------------
+// ---------------------------------- main box -----------------------------------
 
 void draw_main_box_vertical(struct fb_t *const fbp, int row, int col){
 	draw_two_grid_box_vertical(fbp, row, col, 2);
 }
 
 
-// ---------------------- move selections --------------------------
+// --------------------------------- move selections -----------------------------------
 
 void move_selection_to_nearest_block(int direction) {
     // 0=left, 1=right, 2=up, 3=down
@@ -479,7 +480,7 @@ int get_grid(int row, int col){
 
 
 
-// --------------------- main -------------------------
+// ----------------------------------- main --------------------------------------
 int main() {
 
 	int x, y;
