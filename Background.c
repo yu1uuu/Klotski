@@ -500,6 +500,22 @@ int get_grid(int row, int col){
 	return grid_array[row][col];
 }
 
+void drawBackground(struct fb_t *const fbp) {
+    int x, y;
+    for (y = 0; y < 240; y++) {
+        for (x = 0; x < 320; x++) {
+            fbp->pixels[y][x] = stoneWallBackground[y][x];
+        }
+    }
+}
+
+
+void solid_color(struct fb_t *const fbp, unsigned short color) {
+	int x, y;
+	for (x = 0; x < xn; x++)
+	for (y = 0; y < yn; y++)
+	fbp->pixels[y][x] = color; // set pixel value at x,y
+}
 
 
 // ----------------------------------- main --------------------------------------
@@ -513,12 +529,9 @@ int main() {
 	  fbp->pixels[y][x] = 0x0000;
 	  }
 		//Outer Background
-	for (int y = 0; y < 240; y++) {
-        for (int x = 0; x < 320; x++) {
-            int color = stoneWallBackground[y][x];
-            plot_pixel(x, y, (short int)color); // Cast color to short int if necessary
-        }
-    }
+	solid_color(fbp, 0xffff); // make all pixels white
+	drawBackground(fbp);
+    
 		// Inner Box
 	for (x = 55; x < xn-70; x++)
 	for (y = 15; y < yn-29; y++) {
