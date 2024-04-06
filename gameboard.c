@@ -27,13 +27,18 @@ int one_pressed = 1;
 int two_pressed = 0;
 int three_pressed = 0;
 int four_pressed = 0;
+int level_easy = 1;
+int level_medium = 0;
+int level_hard = 0;
 // drawing parameters
 int vertical = 1;
 int horizontal = 0;
 int blue = 0;
 int red = 1;
 int gold = 2;
-
+int easy_golden_id = 1;
+int medium_golden_id = 2;
+int hard_golden_id = 6;
 
 struct fb_t {
 	unsigned short volatile pixels[256][512];
@@ -613,6 +618,18 @@ void move_box(int box_id){
 	if ((num_grids == 3) && (direction == 1 )){
 		move_three_grid_box_vertical(box_id);
 	}
+	// win at easy
+	if (level_easy && (get_row(game, easy_golden_id) == 5) && down_pressed){
+		gameWon = 1;
+	}
+	// win at medium
+	if (level_medium && (get_row(game, medium_golden_id) == 5) && down_pressed){
+		gameWon = 1;
+	}
+	// win at hard
+	if (level_hard && (get_row(game, easy_golden_id) == 5) && down_pressed){
+		gameWon = 1;
+	}
 	
 }
 
@@ -891,6 +908,9 @@ void solid_color(struct fb_t *const fbp, unsigned short color) {
 // configurations
 void draw_medium(){
 		num_boxes = 9;
+		level_medium = 1;
+		level_easy = 0;
+		level_hard = 0;
 
 		struct Box game1[num_boxes];
 
@@ -971,8 +991,6 @@ void draw_medium(){
 		game1[8].highlight = false;	
 
 
-
-
 		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
 		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
 		draw_box_group(fbp, get_row(game1, 3), get_col(game1, 3), get_color(game1, 3),  get_num_grids(game1, 3), get_direction(game1, 3), get_highlighted(game1, 3));
@@ -987,7 +1005,9 @@ void draw_medium(){
 	
 void draw_easy(){
 	num_boxes = 8;
-
+	level_easy = 1;
+	level_medium = 0;
+	level_hard = 0
 		struct Box game1[num_boxes];
 
 		game = & game1;
@@ -1072,6 +1092,9 @@ void draw_easy(){
 	
 void draw_hard(){
 		num_boxes = 13;
+		level_hard = 1;
+		level_easy = 0;
+		level_medium = 0;
 
 		struct Box game1[num_boxes];
 
@@ -1241,7 +1264,7 @@ int main() {
 		 }
 		
 		startPageDrawn = 0;
-
+		draw_easy();
 
 		if (one_pressed) draw_easy();
 		if (two_pressed) draw_medium();
