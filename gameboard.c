@@ -1007,10 +1007,10 @@ void draw_easy(){
 	num_boxes = 8;
 	level_easy = 1;
 	level_medium = 0;
-	level_hard = 0
+	level_hard = 0;
 		struct Box game1[num_boxes];
 
-		game = & game1;
+		
 
 
 		game1[0].id = 1;
@@ -1077,7 +1077,7 @@ void draw_easy(){
 		game1[7].direction = horizontal;
 		game1[7].highlight = false;	
 
-
+		game = & game1;
 
 		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
 		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
@@ -1098,7 +1098,7 @@ void draw_hard(){
 
 		struct Box game1[num_boxes];
 
-		game = & game1;
+		
 
 		game1[0].id = 1;
 		game1[0].row = 1;
@@ -1205,7 +1205,8 @@ void draw_hard(){
 		game1[12].direction = horizontal;
 		game1[12].highlight = false;	
 
-
+		game = & game1;
+	
 		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
 		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
 		draw_box_group(fbp, get_row(game1, 3), get_col(game1, 3), get_color(game1, 3),  get_num_grids(game1, 3), get_direction(game1, 3), get_highlighted(game1, 3));
@@ -1222,6 +1223,39 @@ void draw_hard(){
 
 }
 
+void erase_all(){
+	int x,y;
+
+	// inner game board background
+		for (x = 55; x < xn-69; x++)
+		for (y = 15; y < yn-29; y++) {
+		  fbp->pixels[y][x] = 0xdefc;
+		  }
+	
+	// Clear occupacity
+	for (int i=0; i<6; i++){
+		for (int j=0; j<6; j++){
+			grid_array[i][j] = 0;
+		}
+	}
+	
+		
+}
+	
+	
+void reset(){
+
+	erase_all();
+	
+	if (one_pressed) {
+		draw_easy();
+	}else if (two_pressed) {
+		draw_medium();
+	}else if (three_pressed) {
+		draw_hard();
+	}
+	
+}
 
 // --------------------- main -------------------------
 int main() {
@@ -1264,13 +1298,12 @@ int main() {
 		 }
 		
 		startPageDrawn = 0;
-		draw_easy();
+		
 
 		if (one_pressed) draw_easy();
 		if (two_pressed) draw_medium();
 		if (three_pressed) draw_hard();
-		// if (four_pressed) add reset logic
-
+		if (four_pressed) reset();
 		
 		// Write the code you want to test HERE
 
