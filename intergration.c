@@ -1275,7 +1275,89 @@ void reset(){
 	erase_all();
 	
 	if (level_easy) {
-		draw_easy();
+		num_boxes = 8;
+	level_easy = 1;
+	level_medium = 0;
+	level_hard = 0;
+		struct Box game1[num_boxes];
+
+		
+
+
+		game1[0].id = 1;
+		game1[0].row = 1;
+		game1[0].col = 4;
+		game1[0].num_grids = 2;
+		game1[0].color = gold;
+		game1[0].direction = vertical;
+		game1[0].highlight = false;
+
+		game1[1].id = 2;
+		game1[1].row = 2;
+		game1[1].col = 5;
+		game1[1].num_grids = 2;
+		game1[1].color = blue;
+		game1[1].direction = horizontal;
+		game1[1].highlight = false;
+
+		game1[2].id = 3;
+		game1[2].row = 4;
+		game1[2].col = 1;
+		game1[2].num_grids = 2;
+		game1[2].color = blue;
+		game1[2].direction = horizontal;
+		game1[2].highlight = false;
+
+		game1[3].id = 4;
+		game1[3].row = 4;
+		game1[3].col = 3;
+		game1[3].num_grids = 2;
+		game1[3].color = blue;
+		game1[3].direction = horizontal;
+		game1[3].highlight = false;
+
+		game1[4].id = 5;
+		game1[4].row = 3;
+		game1[4].col = 5;
+		game1[4].num_grids = 2;
+		game1[4].color = blue;
+		game1[4].direction = vertical;
+		game1[4].highlight = false;
+
+		game1[5].id = 6;
+		game1[5].row = 5;
+		game1[5].col = 4;
+		game1[5].num_grids = 2;
+		game1[5].color = blue;
+		game1[5].direction = horizontal;
+		game1[5].highlight = false;
+
+		game1[6].id = 7;
+		game1[6].row = 6;
+		game1[6].col = 2;
+		game1[6].num_grids = 2;
+		game1[6].color = blue;
+		game1[6].direction = horizontal;
+		game1[6].highlight = false;	
+
+		game1[7].id = 8;
+		game1[7].row = 6;
+		game1[7].col = 5;
+		game1[7].num_grids = 2;
+		game1[7].color = blue;
+		game1[7].direction = horizontal;
+		game1[7].highlight = false;	
+
+		game = & game1;
+
+		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
+		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
+		draw_box_group(fbp, get_row(game1, 3), get_col(game1, 3), get_color(game1, 3),  get_num_grids(game1, 3), get_direction(game1, 3), get_highlighted(game1, 3));
+		draw_box_group(fbp, get_row(game1, 4), get_col(game1, 4), get_color(game1, 4),  get_num_grids(game1, 4), get_direction(game1, 4), get_highlighted(game1, 4));
+		draw_box_group(fbp, get_row(game1, 5), get_col(game1, 5), get_color(game1, 5),  get_num_grids(game1, 5), get_direction(game1, 5), get_highlighted(game1, 5));
+		draw_box_group(fbp, get_row(game1, 6), get_col(game1, 6), get_color(game1, 6),  get_num_grids(game1, 6), get_direction(game1, 6), get_highlighted(game1, 6));
+		draw_box_group(fbp, get_row(game1, 7), get_col(game1, 7), get_color(game1, 7),  get_num_grids(game1, 7), get_direction(game1, 7), get_highlighted(game1, 7));
+		draw_box_group(fbp, get_row(game1, 8), get_col(game1, 8), get_color(game1, 8),  get_num_grids(game1, 8), get_direction(game1, 8), get_highlighted(game1, 8));
 	}else if (level_medium) {
 		draw_medium();
 	}else if (level_hard) {
@@ -1321,6 +1403,75 @@ int main(void) {
     
     int x, y;
 
+		num_boxes = 8;
+		struct Box game1[num_boxes];
+
+		
+
+
+		game1[0].id = 1;
+		game1[0].row = 1;
+		game1[0].col = 4;
+		game1[0].num_grids = 2;
+		game1[0].color = gold;
+		game1[0].direction = vertical;
+		game1[0].highlight = false;
+
+		game1[1].id = 2;
+		game1[1].row = 2;
+		game1[1].col = 5;
+		game1[1].num_grids = 2;
+		game1[1].color = blue;
+		game1[1].direction = horizontal;
+		game1[1].highlight = false;
+
+		game1[2].id = 3;
+		game1[2].row = 4;
+		game1[2].col = 1;
+		game1[2].num_grids = 2;
+		game1[2].color = blue;
+		game1[2].direction = horizontal;
+		game1[2].highlight = false;
+
+		game1[3].id = 4;
+		game1[3].row = 4;
+		game1[3].col = 3;
+		game1[3].num_grids = 2;
+		game1[3].color = blue;
+		game1[3].direction = horizontal;
+		game1[3].highlight = false;
+
+		game1[4].id = 5;
+		game1[4].row = 3;
+		game1[4].col = 5;
+		game1[4].num_grids = 2;
+		game1[4].color = blue;
+		game1[4].direction = vertical;
+		game1[4].highlight = false;
+
+		game1[5].id = 6;
+		game1[5].row = 5;
+		game1[5].col = 4;
+		game1[5].num_grids = 2;
+		game1[5].color = blue;
+		game1[5].direction = horizontal;
+		game1[5].highlight = false;
+
+		game1[6].id = 7;
+		game1[6].row = 6;
+		game1[6].col = 2;
+		game1[6].num_grids = 2;
+		game1[6].color = blue;
+		game1[6].direction = horizontal;
+		game1[6].highlight = false;	
+
+		game1[7].id = 8;
+		game1[7].row = 6;
+		game1[7].col = 5;
+		game1[7].num_grids = 2;
+		game1[7].color = blue;
+		game1[7].direction = horizontal;
+		game1[7].highlight = false;	
 
 	
     while (1) {
@@ -1372,19 +1523,22 @@ int main(void) {
             right_pressed =1;
         }         
         
-        /*
+        
          if (byte3 == 0x1c){
             printf ("A is pressed! \n");
             byte3 = 0;
              if(select_id > 1){
 		
-        de_highlight_last(game1,  select_id);
-    
-            draw_box_group(fbp, get_row(game1, select_id), get_col(game1, select_id), get_color(game1, select_id),  get_num_grids(game1, select_id), get_direction(game1, select_id), get_highlighted(game1, select_id));
+        de_highlight_last(game,  select_id);
+        
+        	int row = get_row(game, select_id);
+            printf("row is %d", row);
+     	
+            draw_box_group(fbp, get_row(game, select_id), get_col(game, select_id), get_color(game, select_id),  get_num_grids(game, select_id), get_direction(game, select_id), get_highlighted(game, select_id));
        
 		select_id --;
-        highlight_selected(game1,  select_id);
-        draw_box_group(fbp, get_row(game1, select_id), get_col(game1, select_id), get_color(game1, select_id),  get_num_grids(game1, select_id), get_direction(game1, select_id), get_highlighted(game1, select_id));
+        highlight_selected(game,  select_id);
+        draw_box_group(fbp, get_row(game, select_id), get_col(game, select_id), get_color(game, select_id),  get_num_grids(game, select_id), get_direction(game, select_id), get_highlighted(game, select_id));
        
         
         //
@@ -1394,20 +1548,19 @@ int main(void) {
          if (byte3 == 0x23){
             printf ("D is pressed! \n");
             byte3 = 0;
+            
              if(select_id < num_boxes){
    		
-            de_highlight_last(game1,  select_id);
-    
-            draw_box_group(fbp, get_row(game1, select_id), get_col(game1, select_id), get_color(game1, select_id),  get_num_grids(game1, select_id), get_direction(game1, select_id), get_highlighted(game1, select_id));
+           		de_highlight_last(game,  select_id);
+    	
+            	draw_box_group(fbp, get_row(game, select_id), get_col(game, select_id), get_color(game, select_id),  get_num_grids(game, select_id), get_direction(game, select_id), get_highlighted(game, select_id));
        
-		select_id ++;
-        highlight_selected(game1,  select_id);
-        draw_box_group(fbp, get_row(game1, select_id), get_col(game1, select_id), get_color(game1, select_id),  get_num_grids(game1, select_id), get_direction(game1, select_id), get_highlighted(game1, select_id));
-       
-        
-	}
+				select_id ++;
+      	  		highlight_selected(game,  select_id);
+    	    	draw_box_group(fbp, get_row(game, select_id), get_col(game, select_id), get_color(game, select_id),  get_num_grids(game, select_id), get_direction(game, select_id), get_highlighted(game, select_id));      
+			}
         }    
-        */
+        
        
         
         // start page drawn in the beginning or if use pressed space at win page
@@ -1450,7 +1603,21 @@ int main(void) {
         
 		
         //Draw Easy
-        draw_easy();
+      
+		level_easy = 1;
+		level_medium = 0;
+		level_hard = 0;
+
+		game = & game1;
+
+		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
+		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
+		draw_box_group(fbp, get_row(game1, 3), get_col(game1, 3), get_color(game1, 3),  get_num_grids(game1, 3), get_direction(game1, 3), get_highlighted(game1, 3));
+		draw_box_group(fbp, get_row(game1, 4), get_col(game1, 4), get_color(game1, 4),  get_num_grids(game1, 4), get_direction(game1, 4), get_highlighted(game1, 4));
+		draw_box_group(fbp, get_row(game1, 5), get_col(game1, 5), get_color(game1, 5),  get_num_grids(game1, 5), get_direction(game1, 5), get_highlighted(game1, 5));
+		draw_box_group(fbp, get_row(game1, 6), get_col(game1, 6), get_color(game1, 6),  get_num_grids(game1, 6), get_direction(game1, 6), get_highlighted(game1, 6));
+		draw_box_group(fbp, get_row(game1, 7), get_col(game1, 7), get_color(game1, 7),  get_num_grids(game1, 7), get_direction(game1, 7), get_highlighted(game1, 7));
+		draw_box_group(fbp, get_row(game1, 8), get_col(game1, 8), get_color(game1, 8),  get_num_grids(game1, 8), get_direction(game1, 8), get_highlighted(game1, 8));
         
         
         
@@ -1480,8 +1647,21 @@ int main(void) {
         	
         	erase_all();
 		
-			draw_easy();
+			level_easy = 1;
+			level_medium = 0;
+			level_hard = 0;
 
+			game = & game1;
+
+		draw_box_group(fbp, get_row(game1, 1), get_col(game1, 1), get_color(game1, 1),  get_num_grids(game1, 1), get_direction(game1, 1), get_highlighted(game1, 1));
+		draw_box_group(fbp, get_row(game1, 2), get_col(game1, 2), get_color(game1, 2),  get_num_grids(game1, 2), get_direction(game1, 2), get_highlighted(game1, 2));
+		draw_box_group(fbp, get_row(game1, 3), get_col(game1, 3), get_color(game1, 3),  get_num_grids(game1, 3), get_direction(game1, 3), get_highlighted(game1, 3));
+		draw_box_group(fbp, get_row(game1, 4), get_col(game1, 4), get_color(game1, 4),  get_num_grids(game1, 4), get_direction(game1, 4), get_highlighted(game1, 4));
+		draw_box_group(fbp, get_row(game1, 5), get_col(game1, 5), get_color(game1, 5),  get_num_grids(game1, 5), get_direction(game1, 5), get_highlighted(game1, 5));
+		draw_box_group(fbp, get_row(game1, 6), get_col(game1, 6), get_color(game1, 6),  get_num_grids(game1, 6), get_direction(game1, 6), get_highlighted(game1, 6));
+		draw_box_group(fbp, get_row(game1, 7), get_col(game1, 7), get_color(game1, 7),  get_num_grids(game1, 7), get_direction(game1, 7), get_highlighted(game1, 7));
+		draw_box_group(fbp, get_row(game1, 8), get_col(game1, 8), get_color(game1, 8),  get_num_grids(game1, 8), get_direction(game1, 8), get_highlighted(game1, 8));
+        
             one_pressed = 0;
          } 
 		if ( two_pressed) {
